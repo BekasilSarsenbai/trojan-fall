@@ -1,0 +1,26 @@
+import { NextResponse } from "next/server";
+import { getServerSupabase, isSupabaseConfiguredServer } from "@/lib/supabase/server";
+
+export async function GET(request: Request) {
+  const url = new URL(request.url);
+  const code = url.searchParams.get("code");
+  const next = url.searchParams.get("next") ?? "/play";
+
+  if (!isSupabaseConfiguredServer()) {
+    return NextResponse.redirect(new URL("/auth/login?error=not_configured", request.url));
+  }
+
+  if (code) {
+    const supabase = getServerSupabase();
+    if (supabase) {
+      const { error } = await supabase.auth.exchangeCodeForSession(code);
+      if (error) {
+        return NextResponse.redirect(
+          new URL(`/auth/login?error=${encodeURIComponent(error.message)}`, request.url),
+        );
+      }
+    }
+  }
+
+  return NextResponse.redirect(new URL(next, request.url));
+}

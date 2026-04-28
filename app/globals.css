@@ -2,26 +2,195 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    box-sizing: border-box;
   }
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  html, body {
+    background-color: #050810;
+    color: #F8FAFC;
+    min-height: 100%;
+  }
+  body {
+    font-family: var(--font-rajdhani), "Inter", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background:
+      radial-gradient(900px 500px at 80% -10%, rgba(103, 232, 249, 0.08), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%,  rgba(245, 197, 66, 0.05), transparent 60%),
+      #050810;
+  }
+  ::selection {
+    background: rgba(245, 197, 66, 0.25);
+    color: #F8FAFC;
+  }
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #111827;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #374151;
+    border-radius: 2px;
+  }
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .font-display { font-family: var(--font-orbitron), "Inter", sans-serif; letter-spacing: 0.04em; }
+
+  /* ─── Liquid glass ─────────────────────────────── */
+  .liquid-glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.08);
+    position: relative;
+    overflow: hidden;
+  }
+  .liquid-glass::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      180deg,
+      rgba(255,255,255,0.28) 0%,
+      rgba(255,255,255,0.06) 35%,
+      rgba(255,255,255,0.00) 60%,
+      rgba(255,255,255,0.12) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  /* ─── Background grid ──────────────────────────── */
+  .war-grid {
+    background-image:
+      linear-gradient(rgba(255,255,255,1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px);
+    background-size: 32px 32px;
+    opacity: 0.025;
+    pointer-events: none;
+  }
+
+  /* ─── Gradient text ────────────────────────────── */
+  .text-war-gradient {
+    background: linear-gradient(135deg, #F5C542 0%, #FFFFFF 50%, #67E8F9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gold-text-glow {
+    text-shadow: 0 0 24px rgba(245, 197, 66, 0.45);
+  }
+
+  /* ─── Board glow ───────────────────────────────── */
+  .board-glow {
+    filter:
+      drop-shadow(0 0 50px rgba(103, 232, 249, 0.30))
+      drop-shadow(0 0 20px rgba(103, 232, 249, 0.15))
+      drop-shadow(0 24px 48px rgba(0, 0, 0, 0.65));
+  }
+
+  /* ─── Button glows ─────────────────────────────── */
+  .btn-gold-glow {
+    box-shadow:
+      0 0 20px rgba(245, 197, 66, 0.25),
+      0 4px 14px rgba(0, 0, 0, 0.45);
+    transition: box-shadow 0.2s ease, transform 0.15s ease;
+  }
+  .btn-gold-glow:hover {
+    box-shadow:
+      0 0 36px rgba(245, 197, 66, 0.50),
+      0 6px 20px rgba(0, 0, 0, 0.50);
+    transform: scale(1.03);
+  }
+  .btn-gold-glow:active {
+    transform: scale(0.98);
+  }
+
+  /* ─── War map zone overlays ────────────────────── */
+  .zone-mine    { background: rgba(47,  128, 237, 0.22); }
+  .zone-enemy   { background: rgba(239, 68,  68,  0.24); }
+  .zone-contest { background: rgba(124, 58,  237, 0.20); }
+
+  /* ─── Rank glow (supreme rank only) ───────────── */
+  .rank-supreme {
+    animation: rankGlow 2s ease-in-out infinite;
+  }
+
+  /* ─── Staggered fade-in helpers ────────────────── */
+  .delay-0   { animation-delay: 0ms;   }
+  .delay-150 { animation-delay: 150ms; }
+  .delay-250 { animation-delay: 250ms; }
+  .delay-350 { animation-delay: 350ms; }
+  .delay-450 { animation-delay: 450ms; }
+
+  /* ─── Clip-path panel angles ──────────────────── */
+  .clip-panel {
+    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+  }
+  .clip-panel-r {
+    clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+  }
+
+  .scrollbar-thin::-webkit-scrollbar { width: 4px; height: 4px; }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2
+           bg-gold-gradient text-black font-bold px-5 py-3 rounded
+           uppercase tracking-wider btn-gold-glow;
+    font-family: var(--font-rajdhani);
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2
+           border border-war-border text-war-text font-semibold
+           px-5 py-3 rounded transition-all duration-150
+           hover:border-war-gold hover:text-war-gold uppercase tracking-wider
+           bg-war-panel/60 backdrop-blur-sm;
+    font-family: var(--font-rajdhani);
+  }
+  .panel {
+    @apply bg-war-panel/85 border border-war-border rounded backdrop-blur-sm relative shadow-panel;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1 px-2 py-1 text-xs font-mono
+           uppercase tracking-widest rounded border;
+  }
+  .label {
+    @apply text-[10px] uppercase tracking-[0.22em] font-bold text-war-muted;
+    font-family: var(--font-orbitron);
+  }
+  .label-cyan { @apply label text-war-cyan; text-shadow: 0 0 8px rgba(103, 232, 249, 0.4); }
+  .label-blue { @apply label-cyan; }
+  .label-red  { @apply label text-war-red;  text-shadow: 0 0 8px rgba(239, 68, 68, 0.4); }
+  .label-gold { @apply label text-war-gold; text-shadow: 0 0 8px rgba(245, 197, 66, 0.4); }
+
+  .neon-frame-cyan {
+    box-shadow:
+      inset 0 0 0 1px rgba(103, 232, 249, 0.35),
+      0 0 24px rgba(103, 232, 249, 0.20);
+  }
+  .neon-frame-red {
+    box-shadow:
+      inset 0 0 0 1px rgba(239, 68, 68, 0.35),
+      0 0 24px rgba(239, 68, 68, 0.20);
+  }
+  .neon-frame-gold {
+    box-shadow:
+      inset 0 0 0 1px rgba(245, 197, 66, 0.35),
+      0 0 24px rgba(245, 197, 66, 0.20);
   }
 }
+
+main, header, footer { position: relative; z-index: 1; }
