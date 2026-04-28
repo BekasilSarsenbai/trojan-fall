@@ -4,69 +4,68 @@
 
 **Live**: [https://trojan-fall.vercel.app](https://trojan-fall.vercel.app)
 
-## Что это
+## What it is
 
-**Trojan Fall** — шахматная веб-платформа, которая переосмысляет
-классические шахматы как тактическую войну.
+**Trojan Fall** is a chess web platform that reimagines classical chess
+as tactical warfare.
 
-Партия играется по обычным правилам FIDE (через `chess.js`), но **весь
-пользовательский опыт построен вокруг военного нарратива и
-объяснения причин**. После каждой партии игрок получает не сухой
-engine-вывод (`-2.3 на ходу 14`), а **War Report** на русском
-языке: что пошло не так, почему именно этот эпизод стал критическим,
-и как исправить это в следующей партии.
+Games are played by standard FIDE rules (via `chess.js`), but **the
+entire user experience is built around a military narrative and
+explaining why you lost**. After every game, the player gets — instead
+of a dry engine output (`-2.3 on move 14`) — a **War Report** in
+their language: what went wrong, why this exact episode became
+critical, and how to fix it in the next game.
 
-## Для кого
+## Who it's for
 
-- **Игроки 14–35 лет** в Казахстане и СНГ — там нет ни одной
-  шахматной платформы с AI-разбором на русском
-- **Новички и любители** — они уходят с Chess.com и Lichess, потому что
-  не понимают анализ движка. Trojan Fall переводит ошибки на язык
-  тактики, а не цифр
-- **Все, кто хотят соревнование с другом** — встроенный режим
-  «Дуэль» позволяет играть онлайн с реальным противником, со
-  спецспособностями (карты ⚡💥🛡👑) и внутренней валютой
+- **Players 14–35** in Kazakhstan and CIS — there isn't a single chess
+  platform with AI analysis in Russian for this audience
+- **Beginners and casual players** — they leave Chess.com and Lichess
+  because they don't understand engine analysis. Trojan Fall translates
+  mistakes into the language of tactics, not numbers
+- **Anyone who wants to play with friends** — built-in **Дуэль (Duel)**
+  mode lets you play online vs a real opponent with special abilities
+  (cards ⚡💥🛡👑) and an in-game currency
 
-## Почему это ценно
+## Why it's valuable
 
-1. **Понимаешь, почему проиграл.** Не «−2.3 на ходу 14», а
-   «незащищённый штаб», «преждевременная атака ферзём» — конкретный
-   эпизод и конкретный совет. На русском языке.
+1. **You understand why you lost.** Not "−2.3 on move 14", but
+   "Unprotected HQ", "Premature queen sortie" — a specific incident
+   and a specific recommendation. In Russian.
 
-2. **Видишь карту контроля прямо во время партии.** Зоны
-   контроля (синие — твои, красные — противника, фиолетовые —
-   спорные) накладываются на доску в реальном времени. Этого нет
-   ни на Chess.com, ни на Lichess.
+2. **You see a control map during the game.** Control zones (blue =
+   yours, red = enemy's, purple = contested) are overlaid on the
+   board in real time. Neither Chess.com nor Lichess do this.
 
-3. **Дуэль с другом — со способностями.** Многопользовательский
-   режим через Supabase Realtime: создал комнату, скинул ссылку
-   другу, играете онлайн. Каждому даётся 3 спецкарты:
-   ⚡ Берсерк (двойной ход), 💥 Молния (удалить фигуру),
-   🛡 Щит (защита фигуры), 👑 Коронация (пешка → ферзь).
+3. **Duel mode with friends — with abilities.** Multiplayer via
+   Supabase Realtime: create a room, send the link to a friend, play
+   live. Each player gets 3 special cards: ⚡ Berserk (double move),
+   💥 Lightning (remove a piece), 🛡 Shield (piece immunity),
+   👑 Coronation (pawn → queen).
 
-4. **Внутренняя экономика.** Дукаты Δ — военная валюта. Зарабатываются
-   за победы / точность / ежедневный вход. Тратятся на расходники,
-   скины досок, разблокировку редких карт.
+4. **In-game economy.** Ducats Δ — military currency. Earned for
+   wins / accuracy / daily login. Spent on consumables, board skins,
+   rare card unlocks.
 
-5. **Геймификация уровня Clash Royale.** XP, 8 боевых званий
-   (Рекрут → Верховный Главнокомандующий), daily missions,
-   серии побед, daily login bonus.
+5. **Clash-Royale-level gamification.** XP, 8 military ranks
+   (Recruit → Supreme Commander), daily missions, win streaks,
+   daily login bonus.
 
 ## Stack
 
-| Слой       | Технология                                        |
+| Layer      | Technology                                        |
 |------------|---------------------------------------------------|
 | Frontend   | Next.js 14 (App Router) + React 18 + TypeScript   |
-| Styling    | Tailwind CSS 3 + кастомная тема `war-*`           |
-| Шрифты     | Orbitron (display) + Rajdhani (UI)                |
-| Шахматы    | `chess.js` + `react-chessboard@4`                 |
+| Styling    | Tailwind CSS 3 + custom `war-*` theme             |
+| Fonts      | Orbitron (display) + Rajdhani (UI)                |
+| Chess      | `chess.js` + `react-chessboard@4`                 |
 | AI         | Minimax + alpha-beta + PST (depth 1–3)            |
-| State      | `zustand` с `persist` в localStorage              |
+| State      | `zustand` with `persist` to localStorage          |
 | Backend    | Supabase: Auth + PostgreSQL + Realtime + RLS + RPC|
-| Платежи    | Stripe Checkout (опционально)                     |
-| Деплой     | Vercel                                            |
+| Payments   | Stripe Checkout (optional)                        |
+| Deploy     | Vercel                                            |
 
-## Структура
+## Project structure
 
 ```
 app/
@@ -74,11 +73,11 @@ app/
   play/page.tsx             ← Battle vs AI (3-column layout)
   match/[id]/page.tsx       ← Match by link (multiplayer chess)
   match/new/page.tsx        ← Create stake match
-  siege/[roomId]/page.tsx   ← Дуэль (Siege Mode) — chess + карты
-  shop/page.tsx             ← Quartermaster: магазин дукатов и предметов
+  siege/[roomId]/page.tsx   ← Дуэль (Duel mode) — chess + cards
+  shop/page.tsx             ← Quartermaster: ducat shop and items
   review/[id]/page.tsx      ← War Report
-  profile/page.tsx          ← Профиль, кошелёк, история
-  auth/                     ← login/signup/callback (Supabase Auth)
+  profile/page.tsx          ← Profile, wallet, history
+  auth/                     ← login / signup / callback (Supabase Auth)
   api/checkout/route.ts     ← Stripe checkout
   api/webhook/route.ts      ← Stripe webhook → credit ducats
 
@@ -100,35 +99,35 @@ lib/
 hooks/                      ← useMatch, useSiegeRoom, useWallet, useInventory
 
 supabase/
-  schema.sql                ← Полная схема БД
+  schema.sql                ← Full database schema
 ```
 
-## Локальный запуск
+## Local development
 
 ```bash
 npm install
 npm run dev      # http://localhost:3000
 ```
 
-Без Supabase всё работает: профиль/партии хранит `zustand persist`,
-локально. Multiplayer и магазин требуют Supabase.
+Without Supabase everything still works: profile and games are stored
+locally via `zustand persist`. Multiplayer and the shop require Supabase.
 
-## Подключение Supabase
+## Connecting Supabase
 
-1. [supabase.com](https://supabase.com) → New project
-2. SQL Editor → выполни `supabase/schema.sql`
-3. Скопируй `.env.local.example` → `.env.local`:
+1. Go to [supabase.com](https://supabase.com) → New project
+2. SQL Editor → run `supabase/schema.sql`
+3. Copy `.env.local.example` → `.env.local`:
    ```
    NEXT_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
    NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
    ```
-4. Authentication → URL Configuration → добавь
-   `http://localhost:3000/auth/callback` в Redirect URLs
+4. Authentication → URL Configuration → add
+   `http://localhost:3000/auth/callback` to Redirect URLs
 
-## Stripe (опционально)
+## Stripe (optional)
 
-Без ключей кнопки покупки в магазине показываются как «Скоро доступно».
-Для активации:
+Without keys, shop purchase buttons display "Coming soon".
+To enable real payments:
 
 ```
 STRIPE_SECRET_KEY=sk_test_...
@@ -137,13 +136,13 @@ NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
 SUPABASE_SERVICE_ROLE_KEY=eyJ...
 ```
 
-Webhook URL для Stripe Dashboard: `https://your-domain/api/webhook`,
+Webhook URL for Stripe Dashboard: `https://your-domain/api/webhook`,
 event: `checkout.session.completed`.
 
 ## Roadmap
 
-- **V2**: Stockfish WASM для глубокого анализа, weekly Battle Pass
-- **V3**: B2B Academy mode для шахматных школ, мобильное приложение
+- **V2**: Stockfish WASM for deeper analysis, weekly Battle Pass
+- **V3**: B2B Academy mode for chess schools, mobile app
 
 ---
 Built for **nFactorial School Chess Challenge 2025**.
